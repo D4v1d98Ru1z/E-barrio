@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const productMock = require('../../utils/products/products')
 
 router.get('/', (req, res) => {
     const { query } = req.query
