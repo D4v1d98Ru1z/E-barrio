@@ -3,6 +3,7 @@ const app = express()
 const path = require('path')
 const productsRouter = require('./router/products')
 const productsAPIRouter = require('./router/api/products')
+const bodyPase = require('body-parse')
 
 app.get('/', (req, res, next) => {
     res.send({
@@ -17,6 +18,8 @@ app.set('view engine', 'pug')
 
 app.use('/products', productsRouter)
 app.use('/api/products', productsAPIRouter)
+
+app.use(bodyPase.json())
 
 const server = app.listen(8000, function(){
     console.log(`Server running on port http://localhost:${server.address().port}`)
