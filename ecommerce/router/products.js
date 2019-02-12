@@ -1,10 +1,19 @@
 const express = require('express')
 const router = express.Router()
-const products = require('../utils/products/products')
+const ProductService = require('../../services/productServices')
 
-router.get('/', function(req, res) {
-    // products.pug
-    res.render('products', { products })
+const productService = new ProductService()
+
+router.get('/', async function(req, res, next) {
+    try {
+        const { tags } = req.query
+        const products = await productService.getProducts({ tags })
+        // products.pug
+        res.render('products', { products })
+    }
+    catch(err){
+        next(err)
+    }
 })
 
 module.exports = router
