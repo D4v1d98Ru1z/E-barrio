@@ -5,7 +5,7 @@ const ProductService = require('../../services/productServices')
 const productService = new ProductService()
 
 router.get('/', async (req, res, next) => {
-    const { query } = req.query
+    const { tags } = req.query
     try {
         const products = await productService.getProducts({ tags })
     
@@ -37,10 +37,10 @@ router.get('/:productId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     const { body: product } = req
     try {
-        const createproduct = await productService.createProduct({ product })
+        const product = await productService.createProduct({ product })
     
         res.status(201).json({
-            data: createproduct,
+            data: product,
             message: 'products already listed'
         })
     }

@@ -1,4 +1,4 @@
-const productMocks = require('../utils/products')
+const productMocks = require('../utils/products/products')
 
 class productService {
     constructor(){}
@@ -20,4 +20,4 @@ class productService {
     }
 }
 
-module.exports = productMocks
+module.exports = productService
