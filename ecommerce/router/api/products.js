@@ -34,8 +34,8 @@ router.get('/:productId', async (req, res, next) => {
     }
 })
 
-router.post('/', async (req, res, next) => {
-    const { body: product } = req
+router.post('/', async function(req, res, next) {
+    const { body: product } = req;
     try {
         const product = await productService.createProduct({ product })
     
@@ -51,7 +51,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:productId', async (req, res, next) => {
     const { productId } = req.params
-    const { body: product }
+    const { body: product } = req
     try {
         const updateProduct = await productService.updateProduct({ productId, product })
         res.status(200).json({
