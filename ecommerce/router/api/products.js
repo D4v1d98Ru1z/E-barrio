@@ -64,6 +64,21 @@ router.put('/:productId', async (req, res, next) => {
     }
 })
 
+router.patch('/:productId', async (req, res, next) => {
+    const { productId } = req.params
+    const { body: product } = req
+    try {
+        const updateProduct = await productService.updateProduct({productId, product})
+        res.status(200).json({
+            data: updateProduct,
+            message: 'patch product updated'
+        })
+    }
+    catch(err){
+        next(err)
+    }
+})
+
 router.delete('/productId', async (req, res, next) => {
     const { productId } = req.params
     try {
