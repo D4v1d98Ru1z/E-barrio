@@ -12,4 +12,5 @@ const config = {
     dbName: process.env.DB_NAME
 }
 
+// Export as a property of the module
 module.exports = { config }
