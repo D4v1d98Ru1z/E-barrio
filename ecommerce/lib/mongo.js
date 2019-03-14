@@ -7,7 +7,8 @@ const PASSWORD = encodeURIComponent(config.dbPassword)
 const DB_NAME = config.dbName
 
 // Calling the Mongo URI
-const MONGO_URI = `mongodb://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/?authSource=${DB_NAME}`
+const MONGO_URI = `mongodb+srv://${USER}:${PASSWORD}@${config.dbHost}/test?retryWrites=true`
+// `mongodb://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/?authSource=${DB_NAME}`
 
 class MongoLib {
     constructor(){
@@ -15,13 +16,13 @@ class MongoLib {
         this.client = new MongoClient(MONGO_URI, { useNewUrlParser: true })
         this.dbName = DB_NAME
     }
-
+    
     // Connecting to Mongo
     connect(){
         return new Promise((resolve, reject) => {
             // If the mongo client stablish a connection
             this.client.connect(err => {
-                // First callback error
+                // Error first callback 
                 if(err){
                     reject(err)
                 }
