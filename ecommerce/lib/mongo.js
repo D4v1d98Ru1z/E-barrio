@@ -32,46 +32,57 @@ class MongoLib {
             })
         })
     }
-
+    // CRUD here
     // List all the items of any collection
     getAll(collection, query){
         // Return the promise of connect
-        return this.connect().then(db => {
+        return this.connect()
+        .then(db => {
             // Return the db with a mongo methods 
             return db.collection(collection).find(query).toArray() // toArray allows me to manipulate this call
         })
     }
 
-    // Return the id not the product
+    // Getting the id not the product
     get(collection, id){
-        return this.connect().then(db => {
+        // Connecting into de DB
+        return this.connect()
+        .then(db => {
             // mongo method findOne -> used when need to find one product only
-            return db.collection(collection).findOne({
-                _id: ObjectId(id)
-            })
+            return db.collection(collection).findOne({ _id: ObjectId(id) })
         })
     }
-
+    // Create new data
     create(collection, data) {
-        return this.connect().then(db => {
+        // Connecting into de DB
+        return this.connect()
+        .then(db => {
+            // mongo insert only one element
             return db.collection(collection).insertOne(data)
-        }).then(result => result.insertedId)
+        })
+        // Insert the id
+        .then(result => result.insertedId)
     }
-
+    // Update
     update(collection, id, data) {
-        return this.connect().then(db => {
+        // Connecting into de DB
+        return this.connect()
+        .then(db => {
             return db.collection(collection)
+            // Update one element. $set -> replace the value. upsert true -> creates new document
             .updateOne({ _id: ObjectId(id) }, { $set: data }, { upsert: true })
         })
+        // Update the id
         .then(result => result.upsertedId || id)
     }
-
+    // Delete
     delete(collection, id) {
-        return this.connect().then(db => {
+        // Connecting into de DB
+        return this.connect()
+        .then(db => {
+            // Mongo query that delete the id
             return db.collection(collection)
-            .deleteOne({
-                _id: ObjectId(id)
-            })
+            .deleteOne({ _id: ObjectId(id) })
             .then(() => id)
         })
     }
