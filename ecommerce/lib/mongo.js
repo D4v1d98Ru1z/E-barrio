@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 const { config } = require('../config')
 
 // Encode characters
@@ -39,6 +39,40 @@ class MongoLib {
         return this.connect().then(db => {
             // Return the db with a mongo methods 
             return db.collection(collection).find(query).toArray() // toArray allows me to manipulate this call
+        })
+    }
+
+    // Return the id not the product
+    get(collection, id){
+        return this.connect().then(db => {
+            // mongo method findOne -> used when need to find one product only
+            return db.collection(collection).findOne({
+                _id: ObjectId(id)
+            })
+        })
+    }
+
+    create(collection, data) {
+        return this.connect().then(db => {
+            return db.collection(collection).insertOne(data)
+        }).then(result => result.insertedId)
+    }
+
+    update(collection, id, data) {
+        return this.connect().then(db => {
+            return db.collection(collection)
+            .updateOne({ _id: ObjectId(id) }, { $set: data }, { upsert: true })
+        })
+        .then(result => result.upsertedId || id)
+    }
+
+    delete(collection, id) {
+        return this.connect().then(db => {
+            return db.collection(collection)
+            .deleteOne({
+                _id: ObjectId(id)
+            })
+            .then(() => id)
         })
     }
 }
