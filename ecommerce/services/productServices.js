@@ -21,18 +21,23 @@ class productService {
         return products || []
     }
     async getProduct({ productId }){
+        // Getting a product according to the mongo lib
         const product = await this.mongoDB.get(this.collection, productId)
+        // Return the product or just an empty object if there is no pruduct
         return product || {}
     }
     async createProduct({ product }){
+        // Creating a product according to the mongo lib
         const createProductId = await this.mongoDB.create(this.collection, product)
         return createProductId
     }
     async updateProduct({ productId, product }){
+        // Updating a product according to the mongo lib
         const updateProductId = await this.mongoDB.update(ths.collection, productId, product)
         return updateProductId
     }
     async deleteProduct({ productId }){
+        // Deleting a product according to the mongo lib
         const deleteProductId = await this.mongoDB.delete(this.collection, productId)
         return deleteProductId 
     }
