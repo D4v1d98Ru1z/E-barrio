@@ -9,7 +9,8 @@ class productService {
     }
 
     async getProducts({ tags }){
-        // Create a mongo query. To search into an array in mongo: object + $in: tags
+        // Create a mongo query. To search into array in mongo: object + $in: tags
+        // mongo do not get the tags in a simpler way, need to convert it into a object
         const query = tags && { tags: {
             $in: tags
         }}
@@ -19,17 +20,21 @@ class productService {
         // In case that the products never exist return empty array
         return products || []
     }
-    getProduct({ productId }){
-        return Promise.resolve(productMocks[0])
+    async getProduct({ productId }){
+        const product = await this.mongoDB.get(this.collection, productId)
+        return product || {}
     }
-    createProduct({ product }){
-        return Promise.resolve(productMocks[0])
+    async createProduct({ product }){
+        const createProductId = await this.mongoDB.create(this.collection, product)
+        return createProductId
     }
-    updateProduct({ productId }){
-        return Promise.resolve(productMocks[0])
+    async updateProduct({ productId, product }){
+        const updateProductId = await this.mongoDB.update(ths.collection, productId, product)
+        return updateProductId
     }
-    deleteProduct({ productId, product }){
-        return Promise.resolve(productMocks[0])
+    async deleteProduct({ productId }){
+        const deleteProductId = await this.mongoDB.delete(this.collection, productId)
+        return deleteProductId 
     }
 }
 
